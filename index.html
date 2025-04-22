@@ -1,5 +1,68 @@
-<html>
-  <body>
-    <p1>Hello there
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Extract Watermark</title>
+</head>
+<body>
+  <h2>Upload Composite Image</h2>
+  <input type="file" id="compositeImage" accept="image/*">
+  <br><br>
+  <canvas id="compositeCanvas" style="display:none;"></canvas>
+  <canvas id="watermarkCanvas"></canvas>
+  <br><br>
+  <a id="downloadLink" href="#" download="watermark.png">Download Watermark</a>
+
+  <script>
+const compositeInput = document.getElementById('compositeImage');
+    const compositeCanvas = document.getElementById('compositeCanvas');
+    const watermarkCanvas = document.getElementById('watermarkCanvas');
+    const downloadLink = document.getElementById('downloadLink');
+
+    compositeInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const img = new Image();
+      img.onload = function() {
+        const width = img.width;
+        const height = img.height;
+
+        compositeCanvas.width = width;
+        compositeCanvas.height = height;
+        watermarkCanvas.width = width;
+        watermarkCanvas.height = height;
+
+        const compositeCtx = compositeCanvas.getContext('2d');
+        const watermarkCtx = watermarkCanvas.getContext('2d');
+
+        compositeCtx.drawImage(img, 0, 0, width, height);
+        const compositeData = compositeCtx.getImageData(0, 0, width, height);
+        const watermarkData = watermarkCtx.createImageData(width, height);
+
+        for (let i = 0; i < compositeData.data.length; i += 4) {
+          const alpha = compositeData.data[i + 3];
+          if (alpha < 255) {
+            // Assuming watermark has transparency
+            watermarkData.data[i] = compositeData.data[i];
+            watermarkData.data[i + 1] = compositeData.data[i + 1];
+            watermarkData.data[i + 2] = compositeData.data[i + 2];
+            watermarkData.data[i + 3] = alpha;
+          } else {
+            // Fully opaque pixel, likely part of the base image
+            watermarkData.data[i] = 0;
+            watermarkData.data[i + 1] = 0;
+            watermarkData.data[i + 2] = 0;
+            watermarkData.data[i + 3] = 0;
+          }
+        }
+
+        watermarkCtx.putImageData(watermarkData, 0, 0);
+        downloadLink.href = watermarkCanvas.toDataURL();
+      };
+
+      img.src = URL.createObjectURL(file);
+    });
+  </script>
+</body>
 </html>
