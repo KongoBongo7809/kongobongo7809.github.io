@@ -1,68 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Extract Watermark</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tour de Saveur</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h2>Upload Composite Image</h2>
-  <input type="file" id="compositeImage" accept="image/*">
-  <br><br>
-  <canvas id="compositeCanvas" style="display:none;"></canvas>
-  <canvas id="watermarkCanvas"></canvas>
-  <br><br>
-  <a id="downloadLink" href="#" download="watermark.png">Download Watermark</a>
+  <header>
+    <div class="navbar">
+      <a href="index.html">Home</a>
+      <div class="dropdown">
+        <button class="dropbtn">Menu</button>
+        <div class="dropdown-content">
+          <a href="menu-mediterranean.html">Mediterranean</a>
+          <a href="menu-southasian.html">South Asian</a>
+          <a href="menu-eastasian.html">East Asian</a>
+          <a href="menu-latinamerican.html">Latin American</a>
+          <a href="menu-westafrican.html">West African</a>
+        </div>
+      </div>
+      <a href="how-its-cooked.html">How It's Cooked</a>
+      <a href="sustainability.html">Sourcing & Sustainability</a>
+      <a class="cta" href="#">Order Online</a>
+      <a class="cta" href="#">Reserve Table</a>
+    </div>
+  </header>
 
-  <script>
-const compositeInput = document.getElementById('compositeImage');
-    const compositeCanvas = document.getElementById('compositeCanvas');
-    const watermarkCanvas = document.getElementById('watermarkCanvas');
-    const downloadLink = document.getElementById('downloadLink');
-
-    compositeInput.addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const img = new Image();
-      img.onload = function() {
-        const width = img.width;
-        const height = img.height;
-
-        compositeCanvas.width = width;
-        compositeCanvas.height = height;
-        watermarkCanvas.width = width;
-        watermarkCanvas.height = height;
-
-        const compositeCtx = compositeCanvas.getContext('2d');
-        const watermarkCtx = watermarkCanvas.getContext('2d');
-
-        compositeCtx.drawImage(img, 0, 0, width, height);
-        const compositeData = compositeCtx.getImageData(0, 0, width, height);
-        const watermarkData = watermarkCtx.createImageData(width, height);
-
-        for (let i = 0; i < compositeData.data.length; i += 4) {
-          const alpha = compositeData.data[i + 3];
-          if (alpha < 255) {
-            // Assuming watermark has transparency
-            watermarkData.data[i] = compositeData.data[i];
-            watermarkData.data[i + 1] = compositeData.data[i + 1];
-            watermarkData.data[i + 2] = compositeData.data[i + 2];
-            watermarkData.data[i + 3] = alpha;
-          } else {
-            // Fully opaque pixel, likely part of the base image
-            watermarkData.data[i] = 0;
-            watermarkData.data[i + 1] = 0;
-            watermarkData.data[i + 2] = 0;
-            watermarkData.data[i + 3] = 0;
-          }
-        }
-
-        watermarkCtx.putImageData(watermarkData, 0, 0);
-        downloadLink.href = watermarkCanvas.toDataURL();
-      };
-
-      img.src = URL.createObjectURL(file);
-    });
-  </script>
+  <section class="hero">
+    <h1>Green Around the Globe</h1>
+    <div class="hero-buttons">
+      <a href="menu.html">Explore Menu</a>
+      <a href="how-its-cooked.html">How It's Cooked</a>
+      <a href="sustainability.html">Our Sustainability</a>
+      <a class="cta" href="#">Order Now</a>
+      <a class="cta" href="#">Reserve a Table</a>
+    </div>
+  </section>
 </body>
 </html>
