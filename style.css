@@ -1,0 +1,71 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background-color: #fdfaf4;
+  color: #3b2e2a;
+}
+
+header {
+  background-color: #556b2f;
+  padding: 10px;
+  color: #fff;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+}
+
+.navbar a.cta {
+  background-color: #8b4513;
+  border-radius: 5px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropbtn {
+  background-color: #556b2f;
+  border: none;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #eee;
+  min-width: 160px;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  color: #333;
+  padding: 10px;
+  text-decoration: none;
+  display: block;
+}
+
+.hero {
+  background: #eee;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.hero-buttons a {
+  margin: 5px;
+  padding: 10px 20px;
+  background: #a0522d
